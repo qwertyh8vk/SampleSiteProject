@@ -1,12 +1,12 @@
 from django.shortcuts import render, HttpResponse
 from . models import Bb
-
+from . models import Rubric
 
 def index(request):
-    s =  'Список объявлений\r\n\r\n\r\n'
-    for bb in Bb.objects.order_by('-published'):
-        s += bb.title + '\r\n' + bb.content + '\r\n\r\n'
-    return HttpResponse(s, content_type = 'text/plain; charset=utf-8')
+    bbs = Bb.objects.all()
+    rubrics = Rubric.objects.all()
+    context = {'bbs': bbs, 'rubrics': rubrics}
+    return render(request, 'bboard/templates/index.html', context)
 
 def main_page(request):
     bbs = Bb.objects.order_by('-published')
